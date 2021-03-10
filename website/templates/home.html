@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% block content %}
+<div class="jumbotron" id="banner" style="padding-bottom: 0;">
+    <div class="container">
+      <h1 class="main-head" style="color: #007bff; font-family: Patrick Hand;">URL Shortener</h1>
+      <p>Shorten your long URLs with a single mouse click!</p>
+      <ul class="nav nav-tabs" style="border: 0;">
+        <li role="presentation" style="color: black; background-color: white; padding: 10px 8px;">Home</li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="#">Analytics</a></li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="#">API</a></li>
+      </ul>
+    </div>
+</div>
+<div class="container">
+<form method="POST">
+    <div class="form-group">
+        <label for="URLinput"><b>URL:</b></label>
+        <input type="text" class="form-control" id="urlInput" aria-describedby="shrinkHelp" placeholder="https://makemeshort.com/">
+        <small id="shrinkHelp" class="form-text text-muted">Enter long url to shrink.</small>
+    </div>
+    <label for="basic-url"><b>Custom name (Optional):</b></label>
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">https://makemeshort.com/</span>
+        </div>
+        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+    </div>
+    <button type="submit" class="btn btn-primary" style="width: 100%;">Shorten!</button>
+</form>
+{% endblock %}
