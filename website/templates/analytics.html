@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<div class="jumbotron" id="banner" style="padding-bottom: 0;">
+    <div class="container">
+      <h1 class="main-head" style="color: #007bff; font-family: Patrick Hand;">URL Shortener</h1>
+      <p>Shorten your long URLs with a single mouse click!</p>
+      <ul class="nav nav-tabs" style="border: 0;">
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="/">Home</a></li>
+        <li role="presentation" style="color: black; background-color: white; padding: 10px 8px;">Analytics</li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="#">API</a></li>
+      </ul>
+    </div>
+</div>
+<div class="container">
+  {% if all_queries|length > 0 %}
+    <table class="table table-bordered table-hover table-responsive" style="width: auto;">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">IP Address</th>
+            <th scope="col">Short URL</th>
+            <th scope="col">Long URL</th>
+            <th scope="col">Visits</th>
+          </tr>
+        </thead>
+        {% for query in all_queries %}
+            <tr>
+              <td>{{ query.date }}</td>
+              <td>{{ query.ip_address }}</td> 
+              <td><a href={{ query.short_url }}>{{ query.short_url }}</a></td>
+              <td><a href={{ query.long_url }}>{{ query.long_url }}</a></td>
+              <td>{{ query.visits }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+  {% else %}
+    <p align="center"><b>Nothing to show here!</b></p>
+  {% endif %}
+</div>
+{% endblock %}
