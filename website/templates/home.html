@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
 {% block content %}
 <div class="jumbotron" id="banner" style="padding-bottom: 0;">
     <div class="container">
@@ -6,16 +7,30 @@
       <p>Shorten your long URLs with a single mouse click!</p>
       <ul class="nav nav-tabs" style="border: 0;">
         <li role="presentation" style="color: black; background-color: white; padding: 10px 8px;">Home</li>
-        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="#">Analytics</a></li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="/analytics">Analytics</a></li>
         <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="#">API</a></li>
       </ul>
     </div>
 </div>
+{% with messages = get_flashed_messages(with_categories = true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == "error" %}
+            <div class="alert alert-danger alert-dismissable fade show" role="alert" style="margin: 0px;">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 <div class="container">
 <form method="POST">
     <div class="form-group">
         <label for="URLinput"><b>URL:</b></label>
-        <input type="text" class="form-control" id="urlInput" aria-describedby="shrinkHelp" placeholder="https://makemeshort.com/">
+        <input type="text" class="form-control" id="urlInput" name="urlInput" aria-describedby="shrinkHelp" placeholder="https://makemeshort.com/" required>
         <small id="shrinkHelp" class="form-text text-muted">Enter long url to shrink.</small>
     </div>
     <label for="basic-url"><b>Custom name (Optional):</b></label>
@@ -23,8 +38,20 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3">https://makemeshort.com/</span>
         </div>
-        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-    </div>
+        <input type="text" class="form-control" id="customName" name="customName" aria-describedby="basic-addon3">
+        </div>
     <button type="submit" class="btn btn-primary" style="width: 100%;">Shorten!</button>
 </form>
+<br /> <br />
+<div class="list-group">
+    {% if short_url %}
+    <li class="list-group-item list-group-item-primary">
+        <p align="center">
+            <b>Short URL: </b>
+            <a href={{ short_url }}>{{ short_url }}</a>
+        </p>
+    </li>
+    {% endif %}
+</div>
+</div>
 {% endblock %}
