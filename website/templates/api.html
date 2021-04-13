@@ -22,7 +22,7 @@
         <span style="font-weight: bolder;">
             The API is available at: 
         </span>
-        <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">{{ app_url }}/api</code>
+        <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">{{ app_url }}api</code>
     </p>
     <h5 style="font-weight: bolder;">
         <p>
@@ -66,7 +66,7 @@
             <div style="background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
                 <pre><code style="color: #708090;">import requests
 def response():
-    url = "{{ app_url }}/api"
+    url = "{{ app_url }}api"
     json = {
                 "long_url" : "https://github.com/Vivek-Kolhe",
                 "custom_name" : "vivek"
@@ -79,7 +79,7 @@ def response():
                 <pre><code style="color: #708090;">{
     "data" : {
                 "long_url" : "https://github.com/Vivek-Kolhe",
-                "short_url" : "https://makemeshort/redirect/vivek"
+                "short_url" : "{{ app_url }}redirect/vivek"
              },
     "success" : True
 }</code></pre>
@@ -95,7 +95,7 @@ def response():
             </p>
             <p style="font-weight: bold;">
                 Endpoint: <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
-                {{ app_url }}/api/info
+                {{ app_url }}api/info
                 </code>
             </p>
             <div class="container">
@@ -117,8 +117,8 @@ def response():
             </p>
             <hr>
             <div style="background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
-            <pre><code style="color: #708090;">{{ app_url }}/api/info?endpoint={endpoint}
-{{ app_url }}/api/info?endpoint=vivek</code></pre>
+            <pre><code style="color: #708090;">{{ app_url }}api/info?endpoint={endpoint}
+{{ app_url }}api/info?endpoint=vivek</code></pre>
             </div>
             <p style="font-weight: bold;">
             Output
