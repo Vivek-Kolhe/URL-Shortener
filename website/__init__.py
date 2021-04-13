@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 
+APP_URL = "https://someurl.com"
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
@@ -22,4 +23,4 @@ def create_app():
 def create_db(app):
     if not path.exists("website/" + DB_NAME):
         db.create_all(app = app)
-        #print("DB Created")
+        print("DB Created")
