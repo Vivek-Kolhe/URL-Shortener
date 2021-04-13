@@ -1,5 +1,7 @@
 # URL-Shortener
-  A simple URL - Shortening web app written in Python and Flask, also comes with a simple [API](https://min-me.herokuapp.com/api).
+  A simple URL - Shortening web app written in Python and Flask, also comes with a simple [API](https://min-me.herokuapp.com/api).\
+  
+  <img src="https://github.com/Vivek-Kolhe/URL-Shortener/blob/main/resources/GIF-210413_183835.gif" alt="gif" width=1000px height=562px />
 
 # Dependencies
   - Flask\
