@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}API{% endblock %}
+{% block content %}
+<div class="jumbotron" id="banner" style="padding-bottom: 0;">
+    <div class="container">
+      <h1 class="ml11">
+          <span class="text-wrapper">
+            <span class="line line1"></span>
+            <span class="letters" style="color: #007bff; font-family: Neucha;">URL Shortner</span>
+          </span>
+      </h1>
+      <p>Shorten your long URLs with a single mouse click!</p>
+      <ul class="nav nav-tabs" style="border: 0;">
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="/">Home</a></li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="/analytics">Analytics</a></li>
+        <li role="presentation" style="color: black; background-color: #f5fffa; padding: 10px 8px;">API</li>
+      </ul>
+    </div>
+</div>
+<div class="container">
+    <p>
+        <span style="font-weight: bolder;">
+            The API is available at: 
+        </span>
+        <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">{{ app_url }}/api</code>
+    </p>
+    <h5 style="font-weight: bolder;">
+        <p>
+            Usage:
+        </p>
+    </h5>
+    <ul>
+        <li>
+            <span style="font-weight: bold;">Shorten URL: </span>
+            <p style="font-weight: bold;">Request type: 
+                <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+                    POST
+                </code>
+            </p>
+            <p style="font-weight: bold;">
+                Arguments:
+            </p>
+            <div class="container">
+                <table class="table table-bordered table-hover table-responsive-sm" style="width: auto;">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Arguments</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">long_url</code> <span style="font-weight: bold;">(Required)</span></td>
+                        <td>Long URL to shortern.</td>
+                    </tr>
+                    <tr>
+                        <td><code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">custom_name</code> <span style="font-weight: bold;"> (Optional)</span></td>
+                        <td>If not specified endpoint will be generated randomly.</td>
+                    </tr>
+                </table>
+            </div>
+            <p style="font-weight: bold;  line-height: 0.1em;">
+                Example:
+            </p>
+            <hr>
+            <p style="font-weight: bold;">Python 3</p>
+            <div style="background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+                <pre><code style="color: #708090;">import requests
+def response():
+    url = "{{ app_url }}/api"
+    json = {
+                "long_url" : "https://github.com/Vivek-Kolhe",
+                "custom_name" : "vivek"
+            }
+    response = requests.post(url = url, json = json).json()
+    return response</code></pre>
+            </div>
+            <p style="font-weight: bold;">Output</p>
+            <div style="background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+                <pre><code style="color: #708090;">{
+    "data" : {
+                "long_url" : "https://github.com/Vivek-Kolhe",
+                "short_url" : "https://makemeshort/redirect/vivek"
+             },
+    "success" : True
+}</code></pre>
+            </div>
+            <hr>
+        </li>
+        <li>
+            <span style="font-weight: bold;">Information about an endpoint: </span>
+            <p style="font-weight: bold;">
+                Request type: <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+                GET
+                </code>
+            </p>
+            <p style="font-weight: bold;">
+                Endpoint: <code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+                {{ app_url }}/api/info
+                </code>
+            </p>
+            <div class="container">
+                <table class="table table-bordered table-hover table-responsive-sm" style="width: auto;">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Arguments</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td><code style="color: #708090; background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">endpoint</code> <span style="font-weight: bold;">(Required)</span></td>
+                        <td>Endpoint of the short URL.</td>
+                    </tr>
+                </table>
+            </div>
+            <p style="font-weight: bold;">
+            Example: 
+            </p>
+            <hr>
+            <div style="background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+            <pre><code style="color: #708090;">{{ app_url }}/api/info?endpoint={endpoint}
+{{ app_url }}/api/info?endpoint=vivek</code></pre>
+            </div>
+            <p style="font-weight: bold;">
+            Output
+            </p>
+            <div style="background-color: #f8f8ff; padding: 8px 4px; border-radius: 5px;">
+            <pre><code style="color: #708090">{
+"data" : {
+            "date_time" : ".....",
+            "ip_address" : ".....",
+            "long_url" : ".....",
+            "short_url" : ".....",
+            "visits" : .....
+         }
+}</code></pre>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endblock %}

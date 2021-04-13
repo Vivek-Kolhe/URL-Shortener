@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}404 Not Found{% endblock %}
+{% block content %}
+<div class="jumbotron" id="banner" style="padding-bottom: 0;">
+    <div class="container">
+      <h1 class="ml11">
+          <span class="text-wrapper">
+            <span class="line line1"></span>
+            <span class="letters" style="color: #007bff; font-family: Neucha;">URL Shortner</span>
+          </span>
+      </h1>
+      <p>Shorten your long URLs with a single mouse click!</p>
+      <ul class="nav nav-tabs" style="border: 0;">
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="/">Home</a></li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="/analytics">Analytics</a></li>
+        <li role="presentation" style="color: #007bff; padding: 10px 8px;"><a href="#">API</a></li>
+      </ul>
+    </div>
+</div>
+<div class="container">
+  <h1 style="font-size: 200px;">
+    <bold>
+      <p align="center">404!</p>
+    </bold>
+  </h1>
+  <div class="line-height" style="font-size: 20px; line-height: 0.5em;">
+    <p align="center">Unable to locate the URL to connect to.</p>
+    <p align="center">Please make sure entered URL is correct.</p>
+  </div>
+</div>
+<br>
+{% endblock %}
