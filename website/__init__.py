@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 
-APP_URL = "https://someurl.com"
+APP_URL = "https://someurl.com/"
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
