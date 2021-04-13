@@ -1,7 +1,7 @@
 import re
 import random
 import string
-from . import db
+from . import db, APP_URL
 from .models import URL_DB
 from flask import Blueprint, render_template, request, redirect, flash, abort, jsonify
 
@@ -34,31 +34,31 @@ def home():
             if check_long_url:
                 # checking if the given long url exists in the database.
                 flash("Entered long URL already exists in the database. Serving the existing short URL.", category = "error")
-                return render_template("home.html", short_url = check_long_url.short_url)
+                return render_template("home.html", short_url = check_long_url.short_url, app_url = APP_URL)
 
             if custom_name:
                 # checking if the endpoint already exists in the database.
-                check_custom_name = URL_DB.query.filter_by(short_url = f"https://makemeshort.com/{custom_name}").first()
+                check_custom_name = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{custom_name}").first()
                 if check_custom_name:
                     flash("Custom name already exists. Try again!", category = "error")
-                    return render_template("home.html")
+                    return render_template("home.html", app_url = APP_URL)
 
-            short_url = f"https://makemeshort.com/{custom_name}"
+            short_url = f"{APP_URL}/redirect/{custom_name}"
             put_db = URL_DB(long_url = _long_url, short_url = short_url, visits = 0, ip_address = request.remote_addr)
             db.session.add(put_db)
             db.session.commit()
-            return render_template("home.html", short_url = short_url)
-    return render_template("home.html")
+            return render_template("home.html", short_url = short_url, app_url = APP_URL)
+    return render_template("home.html", app_url = APP_URL)
 
 @views.route('/analytics')
 def analytics():
     all_queries = URL_DB.query.all()
     return render_template("analytics.html", all_queries = all_queries)
 
-@views.route('/<endpoint>')
+@views.route('/redirect/<endpoint>')
 def redirection_to_page(endpoint):
     # checking endpoints, if it exists in the database.
-    check_table = URL_DB.query.filter_by(short_url = f"https://makemeshort.com/{endpoint}").first()
+    check_table = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{endpoint}").first()
     if check_table:
         # incrementing on every visits.
         check_table.visits += 1
@@ -70,11 +70,7 @@ def redirection_to_page(endpoint):
 @views.route('/api', methods = ["GET", "POST"])
 def api_home():
     if request.method == "GET":
-        json_data = {
-                        "success" : False,
-                        "message" : "use post method to short an url"
-                    }
-        return jsonify(json_data)
+        return render_template("api.html", app_url = APP_URL)
     elif request.method == "POST":
         long_url = request.json["long_url"]
         custom_name = ""
@@ -107,7 +103,7 @@ def api_home():
                 return jsonify(json_data)
             
             if custom_name:
-                check_custom_name = URL_DB.query.filter_by(short_url = f"https://makemeshort.com/{custom_name}").first()
+                check_custom_name = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{custom_name}").first()
                 if check_custom_name:
                     json_data = {
                                     "success" : False,
@@ -115,7 +111,7 @@ def api_home():
                                 }
                     return jsonify(json_data)
             
-            short_url = f"https://makemeshort.com/{custom_name}"
+            short_url = f"{APP_URL}/redirect/{custom_name}"
             put_db = URL_DB(long_url = long_url, short_url = short_url, visits = 0, ip_address = request.remote_addr)
             db.session.add(put_db)
             db.session.commit()
@@ -135,11 +131,11 @@ def endpoint_info():
         endpoint = request.args.get("endpoint")
         if not endpoint:
             json_data = {
-                            "message" : "parameter missing",
+                            "message" : "argument missing",
                             "success" : False
                         }
             return jsonify(json_data)
-        check_endpoint = URL_DB.query.filter_by(short_url = f"https://makemeshort.com/{endpoint}").first()
+        check_endpoint = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{endpoint}").first()
         if not check_endpoint:
             json_data = {
                             "message" : "such endpoint does not exist",
@@ -157,3 +153,11 @@ def endpoint_info():
                                      }
                         }
         return jsonify(json_data)
+
+@views.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@views.errorhandler(500)
+def internal_server_error(e):
+    return render_template("500.html"), 500
