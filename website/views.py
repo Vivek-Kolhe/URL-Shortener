@@ -38,12 +38,12 @@ def home():
 
             if custom_name:
                 # checking if the endpoint already exists in the database.
-                check_custom_name = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{custom_name}").first()
+                check_custom_name = URL_DB.query.filter_by(short_url = f"{APP_URL}redirect/{custom_name}").first()
                 if check_custom_name:
                     flash("Custom name already exists. Try again!", category = "error")
                     return render_template("home.html", app_url = APP_URL)
 
-            short_url = f"{APP_URL}/redirect/{custom_name}"
+            short_url = f"{APP_URL}redirect/{custom_name}"
             put_db = URL_DB(long_url = _long_url, short_url = short_url, visits = 0, ip_address = request.remote_addr)
             db.session.add(put_db)
             db.session.commit()
@@ -58,7 +58,7 @@ def analytics():
 @views.route('/redirect/<endpoint>')
 def redirection_to_page(endpoint):
     # checking endpoints, if it exists in the database.
-    check_table = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{endpoint}").first()
+    check_table = URL_DB.query.filter_by(short_url = f"{APP_URL}redirect/{endpoint}").first()
     if check_table:
         # incrementing on every visits.
         check_table.visits += 1
@@ -103,7 +103,7 @@ def api_home():
                 return jsonify(json_data)
             
             if custom_name:
-                check_custom_name = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{custom_name}").first()
+                check_custom_name = URL_DB.query.filter_by(short_url = f"{APP_URL}redirect/{custom_name}").first()
                 if check_custom_name:
                     json_data = {
                                     "success" : False,
@@ -111,7 +111,7 @@ def api_home():
                                 }
                     return jsonify(json_data)
             
-            short_url = f"{APP_URL}/redirect/{custom_name}"
+            short_url = f"{APP_URL}redirect/{custom_name}"
             put_db = URL_DB(long_url = long_url, short_url = short_url, visits = 0, ip_address = request.remote_addr)
             db.session.add(put_db)
             db.session.commit()
@@ -135,7 +135,7 @@ def endpoint_info():
                             "success" : False
                         }
             return jsonify(json_data)
-        check_endpoint = URL_DB.query.filter_by(short_url = f"{APP_URL}/redirect/{endpoint}").first()
+        check_endpoint = URL_DB.query.filter_by(short_url = f"{APP_URL}redirect/{endpoint}").first()
         if not check_endpoint:
             json_data = {
                             "message" : "such endpoint does not exist",
